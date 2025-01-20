@@ -24,13 +24,16 @@ public class QuoteService {
 
     public Quote findById(int id) {
         Optional<Quote> result = quoteRepository.findById(id);
-
         if (result.isPresent()) {
             return result.get();
         }
         else {
             throw new RuntimeException("Did not find quote with id = " + id);
         }
+    }
+
+    public boolean existsById(int id) {
+        return quoteRepository.existsById(id);
     }
 
     public Quote save(Quote quote) {
