@@ -2,6 +2,7 @@ package com.anastasia.quotes_spring_boot_api.rest;
 
 import com.anastasia.quotes_spring_boot_api.entity.Quote;
 import com.anastasia.quotes_spring_boot_api.service.QuoteService;
+import io.micrometer.common.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +20,10 @@ public class QuoteRestController {
     }
 
     @GetMapping("/quotes")
-    public List<Quote> findAll() {
+    public List<Quote> findAll(@RequestParam(required = false) String text) {
+        if (!StringUtils.isBlank(text)) {
+            return quoteService.findQuotesByText(text);
+        }
         return quoteService.findAll();
     }
 
@@ -30,6 +34,11 @@ public class QuoteRestController {
             throw new RuntimeException("Quote id not found - " + quoteId);
         }
         return quote;
+    }
+
+    @GetMapping("/quotes/random")
+    public Quote getRandomQuote() {
+        return quoteService.findRandomQuote();
     }
 
     @PostMapping("/quotes")
@@ -54,4 +63,5 @@ public class QuoteRestController {
         quoteService.deleteById(quoteId);
         return quote;
     }
+
 }
