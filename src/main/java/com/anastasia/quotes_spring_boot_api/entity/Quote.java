@@ -8,13 +8,11 @@ public class Quote {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
     private int id;
 
-    @Column(name="text")
+    @Column(nullable = false)
     private String text;
 
-    @Column(name="author")
     private String author;
 
     public Quote(String text, String author) {
