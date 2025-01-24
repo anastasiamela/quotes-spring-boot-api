@@ -64,6 +64,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
+		<finalName>quotes_spring_boot_api</finalName>
 	</build>
 
 </project>
