@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class QuoteService {
@@ -49,6 +50,10 @@ public class QuoteService {
     }
 
     public Quote findRandomQuote() {
-        return quoteRepository.findRandomQuote();
+        List<Quote> quotes = findAll();
+        if (quotes==null || quotes.isEmpty()) {
+            throw new RuntimeException("Couldn't find any quote");
+        }
+        return quotes.get(new Random().nextInt(quotes.size()));
     }
 }

@@ -11,6 +11,4 @@ public interface QuoteRepository extends JpaRepository<Quote, Integer> {
     @Query("select q from Quote q where q.text like %:text%")
     List<Quote> findQuotesByText(String text);
 
-    @Query(value = "SELECT q FROM Quote q ORDER BY FUNCTION('RAND')")
-    Quote findRandomQuote();
 }
