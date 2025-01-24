@@ -55,7 +55,7 @@ public class QuoteRestController {
         return quoteService.save(quote);
     }
 
-    @DeleteMapping("/quote/{quoteId}")
+    @DeleteMapping("/quotes/{quoteId}")
     public Quote deleteQuote(@PathVariable int quoteId) {
         Quote quote = quoteService.findById(quoteId);
         if (quote == null) {
