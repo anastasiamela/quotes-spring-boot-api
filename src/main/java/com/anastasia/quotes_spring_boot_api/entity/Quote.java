@@ -20,6 +20,12 @@ public class Quote {
         this.author = author;
     }
 
+    public Quote(int id, String text, String author) {
+        this.id = id;
+        this.text = text;
+        this.author = author;
+    }
+
     public Quote(String text) {
         this.text = text;
     }

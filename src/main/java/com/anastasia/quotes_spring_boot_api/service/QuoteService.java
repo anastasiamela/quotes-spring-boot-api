@@ -2,6 +2,7 @@ package com.anastasia.quotes_spring_boot_api.service;
 
 import com.anastasia.quotes_spring_boot_api.dao.QuoteRepository;
 import com.anastasia.quotes_spring_boot_api.entity.Quote;
+import com.anastasia.quotes_spring_boot_api.rest.model.QuoteNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +30,7 @@ public class QuoteService {
             return result.get();
         }
         else {
-            throw new RuntimeException("Did not find quote with id = " + id);
+            throw new QuoteNotFoundException("Did not find quote with id = " + id);
         }
     }
 
@@ -52,7 +53,7 @@ public class QuoteService {
     public Quote findRandomQuote() {
         List<Quote> quotes = findAll();
         if (quotes==null || quotes.isEmpty()) {
-            throw new RuntimeException("Couldn't find any quote");
+            throw new QuoteNotFoundException("Couldn't find any quote");
         }
         return quotes.get(new Random().nextInt(quotes.size()));
     }

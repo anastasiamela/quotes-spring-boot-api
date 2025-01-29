@@ -31,11 +31,7 @@ public class QuoteRestController {
 
     @GetMapping("/quotes/{quoteId}")
     public Quote getQuoteById(@PathVariable int quoteId) {
-        Quote quote = quoteService.findById(quoteId);
-        if (quote == null) {
-            throw new QuoteNotFoundException("Quote id not found - " + quoteId);
-        }
-        return quote;
+        return quoteService.findById(quoteId);
     }
 
     @GetMapping("/quotes/random")
