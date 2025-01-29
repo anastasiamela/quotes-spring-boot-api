@@ -1,6 +1,7 @@
 package com.anastasia.quotes_spring_boot_api.rest;
 
 import com.anastasia.quotes_spring_boot_api.entity.Quote;
+import com.anastasia.quotes_spring_boot_api.rest.model.QuoteBadRequestException;
 import com.anastasia.quotes_spring_boot_api.rest.model.QuoteNotFoundException;
 import com.anastasia.quotes_spring_boot_api.service.QuoteService;
 import io.micrometer.common.util.StringUtils;
@@ -44,11 +45,18 @@ public class QuoteRestController {
 
     @PostMapping("/quotes")
     public Quote addQuote(@RequestBody Quote quote) {
+        if (StringUtils.isBlank(quote.getText())) {
+            throw new QuoteBadRequestException("Quote text shouldn't be empty");
+        }
+
         return quoteService.save(quote);
     }
 
     @PutMapping("/quotes")
     public Quote updateQuote(@RequestBody Quote quote) {
+        if (StringUtils.isBlank(quote.getText())) {
+            throw new QuoteBadRequestException("Quote text shouldn't be empty");
+        }
         if (!quoteService.existsById(quote.getId())) {
             throw new QuoteNotFoundException("Quote id not found - " + quote.getId());
         }
