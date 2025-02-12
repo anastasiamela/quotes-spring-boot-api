@@ -62,8 +62,7 @@ class QuoteRestControllerTest {
                         .accept(MediaType.APPLICATION_JSON)
                         .content(requestBody))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.status").value(400))
-                .andExpect(jsonPath("$.message").value("Quote text shouldn't be empty"));
+                .andExpect(jsonPath("$.text").value("Text is mandatory"));
     }
 
     @Test
