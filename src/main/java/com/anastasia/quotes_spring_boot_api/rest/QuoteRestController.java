@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/quotes")
 public class QuoteRestController {
 
     private final QuoteService quoteService;
@@ -21,7 +21,7 @@ public class QuoteRestController {
         this.quoteService = quoteService;
     }
 
-    @GetMapping("/quotes")
+    @GetMapping
     public List<QuoteDTO> findAll(@RequestParam(required = false) String text) {
         if (!StringUtils.isBlank(text)) {
             return quoteService.findQuotesByText(text);
@@ -29,29 +29,29 @@ public class QuoteRestController {
         return quoteService.findAll();
     }
 
-    @GetMapping("/quotes/{quoteId}")
+    @GetMapping("/{quoteId}")
     public QuoteDTO getQuoteById(@PathVariable int quoteId) {
         return quoteService.findById(quoteId);
     }
 
-    @GetMapping("/quotes/random")
+    @GetMapping("/random")
     public QuoteDTO getRandomQuote() {
         return quoteService.findRandomQuote();
     }
 
-    @PostMapping("/quotes")
+    @PostMapping
     public QuoteDTO addQuote(@Valid @RequestBody QuoteDTO quote) {
         return quoteService.create(quote);
     }
 
-    @PutMapping("/quotes/{quoteId}")
+    @PutMapping("/{quoteId}")
     public QuoteDTO updateQuote(@PathVariable int quoteId,
                                 @Valid @RequestBody QuoteDTO quote) {
         quote.setId(quoteId);
         return quoteService.update(quote);
     }
 
-    @DeleteMapping("/quotes/{quoteId}")
+    @DeleteMapping("/{quoteId}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void deleteQuote(@PathVariable int quoteId) {
         quoteService.deleteById(quoteId);
