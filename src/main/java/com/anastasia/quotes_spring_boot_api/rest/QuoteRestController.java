@@ -48,14 +48,17 @@ public class QuoteRestController {
         return quoteService.save(quote);
     }
 
-    @PutMapping("/quotes")
-    public Quote updateQuote(@RequestBody Quote quote) {
+    @PutMapping("/quotes/{quoteId}")
+    public Quote updateQuote(@PathVariable int quoteId, @RequestBody Quote quote) {
         if (StringUtils.isBlank(quote.getText())) {
             throw new QuoteBadRequestException("Quote text shouldn't be empty");
         }
-        if (!quoteService.existsById(quote.getId())) {
-            throw new QuoteNotFoundException("Quote id not found - " + quote.getId());
+        Quote existingQuote = quoteService.findById(quoteId);
+        if (existingQuote == null) {
+            throw new QuoteNotFoundException("Quote id not found - " + quoteId);
         }
+        // Ensure the id in the path and body match
+        quote.setId(quoteId);
         return quoteService.save(quote);
     }
 
