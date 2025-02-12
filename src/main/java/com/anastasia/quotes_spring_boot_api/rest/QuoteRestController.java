@@ -4,7 +4,6 @@ import com.anastasia.quotes_spring_boot_api.model.dto.QuoteDTO;
 import com.anastasia.quotes_spring_boot_api.service.QuoteService;
 import io.micrometer.common.util.StringUtils;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -46,7 +45,7 @@ public class QuoteRestController {
     }
 
     @PutMapping("/quotes/{quoteId}")
-    public QuoteDTO updateQuote(@Valid @Min(value = 1) @PathVariable int quoteId,
+    public QuoteDTO updateQuote(@PathVariable int quoteId,
                                 @Valid @RequestBody QuoteDTO quote) {
         quote.setId(quoteId);
         return quoteService.update(quote);
