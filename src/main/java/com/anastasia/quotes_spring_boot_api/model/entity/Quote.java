@@ -1,4 +1,4 @@
-package com.anastasia.quotes_spring_boot_api.entity;
+package com.anastasia.quotes_spring_boot_api.model.entity;
 
 import jakarta.persistence.*;
 

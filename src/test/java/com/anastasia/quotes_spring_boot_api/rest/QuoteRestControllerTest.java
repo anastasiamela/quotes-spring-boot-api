@@ -1,8 +1,7 @@
 package com.anastasia.quotes_spring_boot_api.rest;
 
-import com.anastasia.quotes_spring_boot_api.entity.Quote;
-import com.anastasia.quotes_spring_boot_api.rest.model.QuoteBadRequestException;
-import com.anastasia.quotes_spring_boot_api.rest.model.QuoteNotFoundException;
+import com.anastasia.quotes_spring_boot_api.model.dto.QuoteDTO;
+import com.anastasia.quotes_spring_boot_api.model.exceptions.QuoteNotFoundException;
 import com.anastasia.quotes_spring_boot_api.service.QuoteService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +35,8 @@ class QuoteRestControllerTest {
         }
         """;
 
-        Quote newQuote = new Quote(1,"Be yourself; everyone else is already taken.", "Oscar Wilde");
-        when(quoteService.save(any(Quote.class))).thenReturn(newQuote);
+        QuoteDTO newQuote = new QuoteDTO(1,"Be yourself; everyone else is already taken.", "Oscar Wilde");
+        when(quoteService.create(any(QuoteDTO.class))).thenReturn(newQuote);
 
 
         mockMvc.perform(post("/api/quotes")
@@ -70,7 +69,7 @@ class QuoteRestControllerTest {
     @Test
     void testGetQuoteById_HappyPath() throws Exception {
         // Given: A quote exists
-        Quote quote = new Quote(1, "Be yourself; everyone else is already taken.", "Oscar Wilde");
+        QuoteDTO quote = new QuoteDTO(1, "Be yourself; everyone else is already taken.", "Oscar Wilde");
         when(quoteService.findById(1)).thenReturn(quote);
 
         // When: The GET request is performed

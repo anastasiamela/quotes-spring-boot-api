@@ -1,6 +1,6 @@
 package com.anastasia.quotes_spring_boot_api.dao;
 
-import com.anastasia.quotes_spring_boot_api.entity.Quote;
+import com.anastasia.quotes_spring_boot_api.model.entity.Quote;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

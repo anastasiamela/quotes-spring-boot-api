@@ -1,11 +1,12 @@
 package com.anastasia.quotes_spring_boot_api.rest;
 
-import com.anastasia.quotes_spring_boot_api.entity.Quote;
-import com.anastasia.quotes_spring_boot_api.rest.model.QuoteBadRequestException;
-import com.anastasia.quotes_spring_boot_api.rest.model.QuoteNotFoundException;
+import com.anastasia.quotes_spring_boot_api.model.dto.QuoteDTO;
 import com.anastasia.quotes_spring_boot_api.service.QuoteService;
 import io.micrometer.common.util.StringUtils;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class QuoteRestController {
     }
 
     @GetMapping("/quotes")
-    public List<Quote> findAll(@RequestParam(required = false) String text) {
+    public List<QuoteDTO> findAll(@RequestParam(required = false) String text) {
         if (!StringUtils.isBlank(text)) {
             return quoteService.findQuotesByText(text);
         }
@@ -30,46 +31,31 @@ public class QuoteRestController {
     }
 
     @GetMapping("/quotes/{quoteId}")
-    public Quote getQuoteById(@PathVariable int quoteId) {
+    public QuoteDTO getQuoteById(@PathVariable int quoteId) {
         return quoteService.findById(quoteId);
     }
 
     @GetMapping("/quotes/random")
-    public Quote getRandomQuote() {
+    public QuoteDTO getRandomQuote() {
         return quoteService.findRandomQuote();
     }
 
     @PostMapping("/quotes")
-    public Quote addQuote(@RequestBody Quote quote) {
-        if (StringUtils.isBlank(quote.getText())) {
-            throw new QuoteBadRequestException("Quote text shouldn't be empty");
-        }
-
-        return quoteService.save(quote);
+    public QuoteDTO addQuote(@Valid @RequestBody QuoteDTO quote) {
+        return quoteService.create(quote);
     }
 
     @PutMapping("/quotes/{quoteId}")
-    public Quote updateQuote(@PathVariable int quoteId, @RequestBody Quote quote) {
-        if (StringUtils.isBlank(quote.getText())) {
-            throw new QuoteBadRequestException("Quote text shouldn't be empty");
-        }
-        Quote existingQuote = quoteService.findById(quoteId);
-        if (existingQuote == null) {
-            throw new QuoteNotFoundException("Quote id not found - " + quoteId);
-        }
-        // Ensure the id in the path and body match
+    public QuoteDTO updateQuote(@Valid @Min(value = 1) @PathVariable int quoteId,
+                                @Valid @RequestBody QuoteDTO quote) {
         quote.setId(quoteId);
-        return quoteService.save(quote);
+        return quoteService.update(quote);
     }
 
     @DeleteMapping("/quotes/{quoteId}")
-    public Quote deleteQuote(@PathVariable int quoteId) {
-        Quote quote = quoteService.findById(quoteId);
-        if (quote == null) {
-            throw new QuoteNotFoundException("Quote id not found - " + quoteId);
-        }
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    public void deleteQuote(@PathVariable int quoteId) {
         quoteService.deleteById(quoteId);
-        return quote;
     }
 
 }

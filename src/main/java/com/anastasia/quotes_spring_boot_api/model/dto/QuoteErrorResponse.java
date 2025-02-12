@@ -1,4 +1,4 @@
-package com.anastasia.quotes_spring_boot_api.rest.model;
+package com.anastasia.quotes_spring_boot_api.model.dto;
 
 public class QuoteErrorResponse {
 
