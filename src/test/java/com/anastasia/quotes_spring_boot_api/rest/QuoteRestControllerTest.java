@@ -39,7 +39,7 @@ class QuoteRestControllerTest {
         when(quoteService.create(any(QuoteDTO.class))).thenReturn(newQuote);
 
 
-        mockMvc.perform(post("/api/quotes")
+        mockMvc.perform(post("/quotes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
                 .andExpect(status().isOk())
@@ -57,7 +57,7 @@ class QuoteRestControllerTest {
         """;
 
         // When: A POST request is performed
-        mockMvc.perform(post("/api/quotes")
+        mockMvc.perform(post("/quotes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(requestBody))
@@ -72,7 +72,7 @@ class QuoteRestControllerTest {
         when(quoteService.findById(1)).thenReturn(quote);
 
         // When: The GET request is performed
-        mockMvc.perform(get("/api/quotes/1")
+        mockMvc.perform(get("/quotes/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
@@ -86,7 +86,7 @@ class QuoteRestControllerTest {
         when(quoteService.findById(2)).thenThrow(new QuoteNotFoundException("Quote id not found - 2"));
 
         // When: The GET request is performed
-        mockMvc.perform(get("/api/quotes/2")
+        mockMvc.perform(get("/quotes/2")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.status").value(404))
